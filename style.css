@@ -9,6 +9,12 @@ body {
   background-color: blueviolet;
 }
 
+.app {
+  display: grid;
+  grid-template-columns: 644px 1fr;
+  gap: 10px;
+}
+
 .grid {
   width: 604px;
   display: grid;
@@ -16,7 +22,6 @@ body {
   height: 604px;
   grid-template-columns: repeat(auto-fit, 40px);
   grid-auto-rows: 40px;
-  text-align: center;
 }
 
 .grid > div {
@@ -56,4 +61,13 @@ body {
 
 .boom {
   background-image: url("./explosion.png");
+}
+
+.scoreboard {
+  margin: 20px;
+  color: white;
+}
+
+.scoreboard > * {
+  margin: 20px;
 }

@@ -12,14 +12,13 @@ const state = {
 
 const setGameUp = (element) => {
   state.element = element;
-  // do all things needed to draw the game
-  // draw the grid
+
   drawGrid();
-  // draw the spaceship
+
   drawShip();
-  // draw the aliens
+
   drawAliens();
-  // add the instructions and the score
+
   drawScoreboard();
 };
 
@@ -41,12 +40,11 @@ const drawShip = () => {
 };
 
 const drawAliens = () => {
-  //adding the aliens to the grid > we need to store position of alients in game state
   state.cells.forEach((cell, index) => {
     if (cell.classList.contains("alien")) {
       cell.classList.remove("alien");
     }
-    //add image to cell if the index is in the set of alien position
+
     if (state.alienPosition.includes(index)) {
       cell.classList.add("alien");
     }
@@ -65,35 +63,31 @@ const controlShip = (event) => {
 };
 
 const moveShip = (direction) => {
-  //remove image from current position
   state.cells[state.shipPosition].classList.remove("spaceship");
-  // figure out the delta
+
   if (direction === "left" && state.shipPosition % 15 !== 0) {
     state.shipPosition--;
   } else if (direction === "right" && state.shipPosition % 15 !== 14) {
     state.shipPosition++;
   }
-  //add image to new position
+
   state.cells[state.shipPosition].classList.add("spaceship");
 };
 
 const fire = () => {
-  // use interval to run code after each time after a specified time
   let interval;
-  // laser start at ship position
+
   let laserPosition = state.shipPosition;
   interval = setInterval(() => {
-    // remove laesr image
     state.cells[laserPosition].classList.remove("laser");
-    // decrease (move up a row) laser position
+
     laserPosition -= 15;
-    // check we are still in bounds of the grid
+
     if (laserPosition < 0) {
       clearInterval(interval);
       return;
     }
-    // if there is an alien boom
-    //clear interval, remove alient image, remove the alien from alien position, add boom, set a time out to remove boom image3
+    3;
     if (state.alienPosition.includes(laserPosition)) {
       clearInterval(interval);
       state.alienPosition.splice(state.alienPosition.indexOf(laserPosition), 1);
@@ -106,15 +100,14 @@ const fire = () => {
       }, 200);
       return;
     }
-    // add image again
+
     state.cells[laserPosition].classList.add("laser");
   }, 100);
 };
 
 const play = () => {
-  // start the march of the aliens
   let interval;
-  //starting direction
+
   let direction = "right";
   interval = setInterval(() => {
     let movement;
@@ -143,7 +136,6 @@ const play = () => {
     checkGameState(interval);
   }, 400);
 
-  // set up ship controls
   window.addEventListener("keydown", controlShip);
 };
 
@@ -157,12 +149,9 @@ const atEdge = (side) => {
 };
 
 const checkGameState = (interval) => {
-  // have the aliens got to the bottom
-
-  // or aliens all dead
   if (state.alienPosition.length === 0) {
     state.gameOver = true;
-    // stop everything
+
     clearInterval(interval);
     drawMessage("HUMAN WINS!!");
   } else if (
@@ -170,8 +159,7 @@ const checkGameState = (interval) => {
   ) {
     clearInterval(interval);
     state.gameOver = true;
-    // make ship go boom
-    //remove ship image and add explosion
+
     state.cells[state.shipPosition].classList.remove("spaceship");
     state.cells[state.shipPosition].classList.add("boom");
     drawMessage("GAME OVER!");
@@ -207,10 +195,8 @@ const drawScoreboard = () => {
   state.element.append(scoreboard);
 };
 
-// query the page for the place to insert my game
 const appElement = document.querySelector(".app");
 
-// do all the things needed to draw the game
 setGameUp(appElement);
 
 play();
